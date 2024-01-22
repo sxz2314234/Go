@@ -10,22 +10,9 @@ package main
 
 import (
 	"fmt"
+	"func/src/_func"
 	"math"
 )
-
-func swap(i int, j int) (int, int) { return j, i }
-
-func swap1(i *int, j *int) {
-	var temp int
-	temp = *i
-	*i = *j
-	*j = temp
-}
-
-func print(i int, j int) {
-	fmt.Printf("The first number is: %d\n", i)
-	fmt.Printf("The second number is: %d\n", j)
-}
 
 func main() {
 	getSquareroot := func(square float64) float64 { return math.Sqrt(float64(square)) }
@@ -35,17 +22,18 @@ func main() {
 	print(value1, value2)
 	fmt.Printf("\n")
 
-	value1, value2 = swap(value1, value2)
+	value1, value2 = _func.Swap(value1, value2)
 	fmt.Printf("After swaping...\n")
-	print(value1, value2)
+	_func.Print(value1, value2)
 	fmt.Printf("\n")
 
-	swap1(&value1, &value2)
+	_func.Swap1(&value1, &value2)
 	fmt.Printf("After swaping1...\n")
-	print(value1, value2)
+	_func.Print(value1, value2)
 	fmt.Printf("\n")
 
 	var root float64 = 9
 	fmt.Printf("Now, the root is %f\n", root)
 	fmt.Printf("After squaring: %f", getSquareroot(root))
+
 }
