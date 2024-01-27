@@ -1,8 +1,8 @@
 package main
 
 import (
-	"array/src/array"
-	"array/src/multi_array"
+	"array/pkg/array"
+	"array/pkg/multi_array"
 	// "fmt"
 )
 
