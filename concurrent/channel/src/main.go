@@ -3,7 +3,7 @@ package main
 import (
 	"channel_test/pkg/channels"
 	"fmt"
-	"sync"
+	// "fmt"
 )
 
 /*
@@ -22,19 +22,24 @@ import (
 }
 */
 
-var wg sync.WaitGroup
-
 func main() {
-	var ch=typechannel.Chaner{
-		Channels: make(chan int,2),
-		Size: 0,
+	var ch = typechannel.Chaner{
+		Channels: make(chan int, 2),
+		Size:     0,
 	}
-	for i := 0; i < 10; i++ {
-		wg.Add(2)
-		go ch.Receiver(i)
-		wg.Done()
 
-		temp:=ch.Sender()
-		fmt.Println() go ch.Sender()
+	for i := 0; i < 4; i++ {
+		typechannel.Wg.Add(1)
+		go ch.Receiver(i)
 	}
+
+	for i := 0; i < 4; i++ {
+		typechannel.Wg.Add(1)
+		value := i + 1
+		go ch.Sender(&value)
+		fmt.Printf("Sent: %d\n", value)
+	}
+
+	typechannel.Wg.Wait()
+	close(ch.Channels)
 }
