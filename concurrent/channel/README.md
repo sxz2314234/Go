@@ -27,14 +27,14 @@ if closed, the ok is false;if not, the ok is true.
 ## Select multiplexing
 In some case, we may need to receive data from multiple channels at the same time.When receiving data,if there is no data to be received,goroutine will be blocked.So we use the key word `select` to response at the same time.For example:
 > select{
-    case <-ch1:
-    // ...
-    case data:=<-ch2:
-    // ...
-    case ch3<-10:
-    // ...
-    default:
-    // default action
+    case <-ch1:   
+    // ...   
+    case data:=<-ch2:   
+    // ...   
+    case ch3<-10:   
+    // ...   
+    default:   
+    // default action   
 }
 
 ## Mutex
