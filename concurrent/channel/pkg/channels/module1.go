@@ -9,11 +9,14 @@ package typechannel
 
 import (
 	"fmt"
+	"sync"
 )
+
+var Wg sync.WaitGroup
 
 type Channel interface {
 	Receiver(int)
-	Sender() int
+	Sender(chan int)
 }
 
 type Chaner struct {
@@ -21,16 +24,15 @@ type Chaner struct {
 	Channels chan int
 }
 
-func (ch *Chaner) Receiver(i int) {
-	fmt.Println("成功接收!!!")
-	ch.Channels <- i
-	ch.Size++
-	fmt.Println("现在的通道数为: ", ch.Size)
+func (ch *Chaner) Receiver(id int) {
+	defer Wg.Done()
+
+	value := <-ch.Channels
+	fmt.Printf("Receiver %d received: %d\n", id, value)
 }
 
-func (ch *Chaner) Sender() int {
-	fmt.Println("成功发送!!!")
-	ch.Size--
-	fmt.Println("现在的通道数: ", ch.Size)
-	return <-ch.Channels
+func (ch *Chaner) Sender(value *int) {
+	defer Wg.Done()
+
+	ch.Channels <- *value
 }
