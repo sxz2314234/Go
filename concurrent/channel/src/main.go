@@ -1,9 +1,10 @@
 package main
 
 import (
-	"channel_test/pkg/channels"
+	// "channel_test/pkg/channels"
+	"channel_test/pkg/mutex_practise"
 	"fmt"
-	// "fmt"
+	"time"
 )
 
 /*
@@ -21,7 +22,7 @@ import (
 
 }
 */
-
+/*
 func main() {
 	var ch = typechannel.Chaner{
 		Channels: make(chan int, 2),
@@ -42,4 +43,31 @@ func main() {
 
 	typechannel.Wg.Wait()
 	close(ch.Channels)
+
+	ch2 := make(chan int, 1)
+	for i := 1; i <= 10; i++ {
+		select {
+		case x := <-ch2:
+			fmt.Println(x)
+		case ch2 <- i:
+		}
+	}
+}
+*/
+
+func main() {
+	start := time.Now()
+	for i := 0; i < 11; i++ {
+		go mutexpractise.Write()
+		mutexpractise.Wg2.Add(1)
+	}
+
+	time.Sleep(time.Second)
+	for i := 0; i < 10; i++ {
+		go mutexpractise.Read()
+		mutexpractise.Wg2.Add(1)
+	}
+
+	mutexpractise.Wg2.Wait()
+	fmt.Println(time.Since(start))
 }

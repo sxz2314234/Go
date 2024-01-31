@@ -29,10 +29,14 @@ func (ch *Chaner) Receiver(id int) {
 
 	value := <-ch.Channels
 	fmt.Printf("Receiver %d received: %d\n", id, value)
+	// ch.Size--
+	// fmt.Printf("There are still %d busy space\n", ch.Size)
 }
 
 func (ch *Chaner) Sender(value *int) {
 	defer Wg.Done()
 
 	ch.Channels <- *value
+	// ch.Size++
+	// fmt.Printf("The buffer has %d vacant space\n", 4-ch.Size)
 }
